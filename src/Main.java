@@ -1,8 +1,10 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-void main() {
-    //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-    // to see how IntelliJ IDEA suggests fixing it.
+
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+   
 
     // Inicializamos la máquina
     Maquina miMaquina = new Maquina("Se312345678");
@@ -45,12 +47,13 @@ void main() {
         }
     }
     sc.close();
+    }
 
-}
-// Método auxiliar para visualizar rápidamente el stock actual
-public static void imprimirEstado(Maquina m) {
-    System.out.println("\n--- ESTADO DE INGREDIENTES ---");
-    System.out.println("Café: " + m.getgCafe() + "g | Leche: " + m.getgLeche() + "g");
-    System.out.println("Cacao: " + m.getgCacao() + "g | Agua: " + m.getMlAgua() + "ml");
-    System.out.println("Vasos: " + m.getVasos());
+    // Método auxiliar para visualizar rápidamente el stock actual
+    public static void imprimirEstado(Maquina m) {
+        System.out.println("\n--- ESTADO DE INGREDIENTES ---");
+        System.out.println("Café: " + m.getgCafe() + "g | Leche: " + m.getgLeche() + "g");
+        System.out.println("Cacao: " + m.getgCacao() + "g | Agua: " + m.getMlAgua() + "ml");
+        System.out.println("Vasos: " + m.getVasos());
+    }
 }

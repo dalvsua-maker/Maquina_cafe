@@ -104,6 +104,7 @@ public class Maquina {
         } while (seleccion < 0 || seleccion > Cafes.size()-1);
         c = Cafes.get(seleccion);
         if (c.gCafe > gCafe) {
+<<<<<<< HEAD
             IO.println("Cafe no disponible,falta cafe");
             c = null;
         } else if (c.gLeche > gLeche) {
@@ -120,6 +121,24 @@ public class Maquina {
 
         } else if (mlAgua < (c.gCafe + c.gLeche + c.gCacao)) {
             IO.println("Cafe no disponible,falta agua");
+=======
+            System.out.println("Cafe no disponible,falta cafe");
+            c = null;
+        } else if (c.gLeche > gLeche) {
+            System.out.println("Cafe no disponible,falta leche");
+            c = null;
+
+        } else if (c.gCacao > gCacao) {
+            System.out.println("Cafe no disponible,falta Cacao");
+            c = null;
+
+        } else if (vasos < 1) {
+            System.out.println("Cafe no disponible,faltan vasos");
+            c = null;
+
+        } else if (mlAgua < (c.gCafe + c.gLeche + c.gCacao)) {
+            System.out.println("Cafe no disponible,falta agua");
+>>>>>>> e31e172 (Borrando comentarios innecesarios)
             c = null;
 
         } else {
@@ -128,15 +147,20 @@ public class Maquina {
             gLeche = gLeche - c.gLeche;
             mlAgua = mlAgua - (c.gCafe + c.gCacao + c.gLeche);
             vasos = vasos - 1;
+<<<<<<< HEAD
             IO.println("Cafe servido!");
 
 
+=======
+            System.out.println("Cafe servido!");
+>>>>>>> e31e172 (Borrando comentarios innecesarios)
         }
 
         return c;
     }
 
     public void recargarMaquina() {
+<<<<<<< HEAD
 
 
         int seleccion = -1;
@@ -146,6 +170,15 @@ public class Maquina {
             IO.println("2. Cacao: " + gCacao);
             IO.println("3. Leche: " + gLeche);
             IO.println("4. Agua: " + mlAgua);
+=======
+        int seleccion = -1;
+        do {
+            System.out.println("Que quieres rellenar?: ");
+            System.out.println("1.Cafe: " + gCafe);
+            System.out.println("2. Cacao: " + gCacao);
+            System.out.println("3. Leche: " + gLeche);
+            System.out.println("4. Agua: " + mlAgua);
+>>>>>>> e31e172 (Borrando comentarios innecesarios)
 
             if (teclado.hasNextInt()) {
                 seleccion = teclado.nextInt() - 1;
@@ -165,7 +198,11 @@ public class Maquina {
 
         switch (seleccion) {
             case 0:
+<<<<<<< HEAD
                 IO.println("Elige la cantidad a rellenar");
+=======
+                System.out.println("Elige la cantidad a rellenar");
+>>>>>>> e31e172 (Borrando comentarios innecesarios)
                 do {
                     if (teclado.hasNextInt()) {
                         seleccion = teclado.nextInt();
@@ -182,18 +219,30 @@ public class Maquina {
 
                 } while (seleccion < 1 || seleccion > 1000);
                 if (seleccion + gCafe > 1000) {
+<<<<<<< HEAD
                     IO.println("Limite superado");
                     break;
 
                 }else{
                     IO.println("Recarga completa!");
+=======
+                    System.out.println("Limite superado");
+                    break;
+
+                }else{
+                    System.out.println("Recarga completa!");
+>>>>>>> e31e172 (Borrando comentarios innecesarios)
                     gCafe=gCafe+seleccion;
                     break;
                 }
                 case 1:
 
                     do {
+<<<<<<< HEAD
                         IO.println("Elige la cantidad a rellenar");
+=======
+                        System.out.println("Elige la cantidad a rellenar");
+>>>>>>> e31e172 (Borrando comentarios innecesarios)
                         if (teclado.hasNextInt()) {
                             seleccion = teclado.nextInt();
 
@@ -209,15 +258,26 @@ public class Maquina {
 
                     } while (seleccion < 1 || seleccion > 1000);
                     if (seleccion + gCacao > 1000) {
+<<<<<<< HEAD
                         IO.println("Limite superado");
                         break;
                     }else{
                         IO.println("Recarga completa!");
+=======
+                        System.out.println("Limite superado");
+                        break;
+                    }else{
+                        System.out.println("Recarga completa!");
+>>>>>>> e31e172 (Borrando comentarios innecesarios)
                         gCacao=gCacao+seleccion;
                         break;
                     }
             case 2:
+<<<<<<< HEAD
                 IO.println("Elige la cantidad a rellenar");
+=======
+                System.out.println("Elige la cantidad a rellenar");
+>>>>>>> e31e172 (Borrando comentarios innecesarios)
                 do {
                     if (teclado.hasNextInt()) {
                         seleccion = teclado.nextInt();
@@ -234,15 +294,26 @@ public class Maquina {
 
                 } while (seleccion < 1 || seleccion > 1000);
                 if (seleccion + gLeche > 1000) {
+<<<<<<< HEAD
                     IO.println("Limite superado");
                     break;
                 }else{
                     IO.println("Recarga completa!");
+=======
+                    System.out.println("Limite superado");
+                    break;
+                }else{
+                    System.out.println("Recarga completa!");
+>>>>>>> e31e172 (Borrando comentarios innecesarios)
                     gLeche=gLeche+seleccion;
                     break;
                 }
             case 3:
+<<<<<<< HEAD
                 IO.println("Elige la cantidad a rellenar");
+=======
+                System.out.println("Elige la cantidad a rellenar");
+>>>>>>> e31e172 (Borrando comentarios innecesarios)
                 do {
                     if (teclado.hasNextInt()) {
                         seleccion = teclado.nextInt();
@@ -259,10 +330,17 @@ public class Maquina {
 
                 } while (seleccion < 1 || seleccion > 1000);
                 if (seleccion + mlAgua > 1000) {
+<<<<<<< HEAD
                     IO.println("Limite superado");
                     break;
                 }else{
                     IO.println("Recarga completa!");
+=======
+                    System.out.println("Limite superado");
+                    break;
+                }else{
+                    System.out.println("Recarga completa!");
+>>>>>>> e31e172 (Borrando comentarios innecesarios)
                     mlAgua=mlAgua+seleccion;
                 }
                 break;
@@ -319,10 +397,16 @@ public class Maquina {
 
     private void mostrarCafes() {
         for (int i = 0; i < Cafes.size(); i++) {
+<<<<<<< HEAD
             IO.println((i + 1 + ": ") + Cafes.get(i).toString());
 
         }
 
 
+=======
+            System.out.println((i + 1 + ": ") + Cafes.get(i).toString());
+
+        }
+>>>>>>> e31e172 (Borrando comentarios innecesarios)
     }
 }
