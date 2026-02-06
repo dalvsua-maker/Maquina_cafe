@@ -7,7 +7,7 @@ public class Maquina {
 
     ArrayList<Cafe> Cafes = new ArrayList<Cafe>();
     int vasos = 100;
-    int gCafe = 900;
+    int gCafe = 100;
     int gLeche = 1000;
     int gCacao = 1000;
     int mlAgua = 1000;
@@ -104,24 +104,6 @@ public class Maquina {
         } while (seleccion < 0 || seleccion > Cafes.size()-1);
         c = Cafes.get(seleccion);
         if (c.gCafe > gCafe) {
-<<<<<<< HEAD
-            IO.println("Cafe no disponible,falta cafe");
-            c = null;
-        } else if (c.gLeche > gLeche) {
-            IO.println("Cafe no disponible,falta leche");
-            c = null;
-
-        } else if (c.gCacao > gCacao) {
-            IO.println("Cafe no disponible,falta Cacao");
-            c = null;
-
-        } else if (vasos < 1) {
-            IO.println("Cafe no disponible,faltan vasos");
-            c = null;
-
-        } else if (mlAgua < (c.gCafe + c.gLeche + c.gCacao)) {
-            IO.println("Cafe no disponible,falta agua");
-=======
             System.out.println("Cafe no disponible,falta cafe");
             c = null;
         } else if (c.gLeche > gLeche) {
@@ -138,7 +120,6 @@ public class Maquina {
 
         } else if (mlAgua < (c.gCafe + c.gLeche + c.gCacao)) {
             System.out.println("Cafe no disponible,falta agua");
->>>>>>> e31e172 (Borrando comentarios innecesarios)
             c = null;
 
         } else {
@@ -147,206 +128,80 @@ public class Maquina {
             gLeche = gLeche - c.gLeche;
             mlAgua = mlAgua - (c.gCafe + c.gCacao + c.gLeche);
             vasos = vasos - 1;
-<<<<<<< HEAD
-            IO.println("Cafe servido!");
-
-
-=======
             System.out.println("Cafe servido!");
->>>>>>> e31e172 (Borrando comentarios innecesarios)
         }
 
         return c;
     }
 
-    public void recargarMaquina() {
-<<<<<<< HEAD
-
-
-        int seleccion = -1;
-        do {
-            IO.println("Que quieres rellenar?: ");
-            IO.println("1.Cafe: " + gCafe);
-            IO.println("2. Cacao: " + gCacao);
-            IO.println("3. Leche: " + gLeche);
-            IO.println("4. Agua: " + mlAgua);
-=======
-        int seleccion = -1;
-        do {
-            System.out.println("Que quieres rellenar?: ");
-            System.out.println("1.Cafe: " + gCafe);
-            System.out.println("2. Cacao: " + gCacao);
-            System.out.println("3. Leche: " + gLeche);
-            System.out.println("4. Agua: " + mlAgua);
->>>>>>> e31e172 (Borrando comentarios innecesarios)
-
-            if (teclado.hasNextInt()) {
-                seleccion = teclado.nextInt() - 1;
-
-                // Si el número no está entre 1 y 4, avisamos
-                if (seleccion < 0 || seleccion > 3) {
-                    System.out.println("⚠️ Opción no válida. Por favor, elige del 1 al 4.");
-                }
-            } else {
-                System.out.println("⚠️ Error: Debes introducir un número, no letras.");
-                teclado.next(); // Limpia el buffer para evitar un bucle infinito
-            }
-
-
-        } while (seleccion < 0 || seleccion > 3);
-
-
-        switch (seleccion) {
-            case 0:
-<<<<<<< HEAD
-                IO.println("Elige la cantidad a rellenar");
-=======
-                System.out.println("Elige la cantidad a rellenar");
->>>>>>> e31e172 (Borrando comentarios innecesarios)
-                do {
-                    if (teclado.hasNextInt()) {
-                        seleccion = teclado.nextInt();
-
-                        // Si el número no está entre 1 y 4, avisamos
-                        if (seleccion < 1 || seleccion > 1000) {
-                            System.out.println("⚠️ Opción no válida. Por favor, elige del 1 al 1000.");
-                        }
-                    } else {
-                        System.out.println("⚠️ Error: Debes introducir un número, no letras.");
-                        teclado.next(); // Limpia el buffer para evitar un bucle infinito
-                    }
-
-
-                } while (seleccion < 1 || seleccion > 1000);
-                if (seleccion + gCafe > 1000) {
-<<<<<<< HEAD
-                    IO.println("Limite superado");
-                    break;
-
-                }else{
-                    IO.println("Recarga completa!");
-=======
-                    System.out.println("Limite superado");
-                    break;
-
-                }else{
-                    System.out.println("Recarga completa!");
->>>>>>> e31e172 (Borrando comentarios innecesarios)
-                    gCafe=gCafe+seleccion;
-                    break;
-                }
-                case 1:
-
-                    do {
-<<<<<<< HEAD
-                        IO.println("Elige la cantidad a rellenar");
-=======
-                        System.out.println("Elige la cantidad a rellenar");
->>>>>>> e31e172 (Borrando comentarios innecesarios)
-                        if (teclado.hasNextInt()) {
-                            seleccion = teclado.nextInt();
-
-                            // Si el número no está entre 1 y 4, avisamos
-                            if (seleccion < 1 || seleccion > 1000) {
-                                System.out.println("⚠️ Opción no válida. Por favor, elige del 1 al 1000.");
-                            }
-                        } else {
-                            System.out.println("⚠️ Error: Debes introducir un número, no letras.");
-                            teclado.next(); // Limpia el buffer para evitar un bucle infinito
-                        }
-
-
-                    } while (seleccion < 1 || seleccion > 1000);
-                    if (seleccion + gCacao > 1000) {
-<<<<<<< HEAD
-                        IO.println("Limite superado");
-                        break;
-                    }else{
-                        IO.println("Recarga completa!");
-=======
-                        System.out.println("Limite superado");
-                        break;
-                    }else{
-                        System.out.println("Recarga completa!");
->>>>>>> e31e172 (Borrando comentarios innecesarios)
-                        gCacao=gCacao+seleccion;
-                        break;
-                    }
-            case 2:
-<<<<<<< HEAD
-                IO.println("Elige la cantidad a rellenar");
-=======
-                System.out.println("Elige la cantidad a rellenar");
->>>>>>> e31e172 (Borrando comentarios innecesarios)
-                do {
-                    if (teclado.hasNextInt()) {
-                        seleccion = teclado.nextInt();
-
-                        // Si el número no está entre 1 y 4, avisamos
-                        if (seleccion < 1 || seleccion > 1000) {
-                            System.out.println("⚠️ Opción no válida. Por favor, elige del 1 al 1000.");
-                        }
-                    } else {
-                        System.out.println("⚠️ Error: Debes introducir un número, no letras.");
-                        teclado.next(); // Limpia el buffer para evitar un bucle infinito
-                    }
-
-
-                } while (seleccion < 1 || seleccion > 1000);
-                if (seleccion + gLeche > 1000) {
-<<<<<<< HEAD
-                    IO.println("Limite superado");
-                    break;
-                }else{
-                    IO.println("Recarga completa!");
-=======
-                    System.out.println("Limite superado");
-                    break;
-                }else{
-                    System.out.println("Recarga completa!");
->>>>>>> e31e172 (Borrando comentarios innecesarios)
-                    gLeche=gLeche+seleccion;
-                    break;
-                }
-            case 3:
-<<<<<<< HEAD
-                IO.println("Elige la cantidad a rellenar");
-=======
-                System.out.println("Elige la cantidad a rellenar");
->>>>>>> e31e172 (Borrando comentarios innecesarios)
-                do {
-                    if (teclado.hasNextInt()) {
-                        seleccion = teclado.nextInt();
-
-                        // Si el número no está entre 1 y 4, avisamos
-                        if (seleccion < 1 || seleccion > 1000) {
-                            System.out.println("⚠️ Opción no válida. Por favor, elige del 1 al 1000.");
-                        }
-                    } else {
-                        System.out.println("⚠️ Error: Debes introducir un número, no letras.");
-                        teclado.next(); // Limpia el buffer para evitar un bucle infinito
-                    }
-
-
-                } while (seleccion < 1 || seleccion > 1000);
-                if (seleccion + mlAgua > 1000) {
-<<<<<<< HEAD
-                    IO.println("Limite superado");
-                    break;
-                }else{
-                    IO.println("Recarga completa!");
-=======
-                    System.out.println("Limite superado");
-                    break;
-                }else{
-                    System.out.println("Recarga completa!");
->>>>>>> e31e172 (Borrando comentarios innecesarios)
-                    mlAgua=mlAgua+seleccion;
-                }
-                break;
-        }
+   public void recargarMaquina() {
+    String[] ingredientes = {"Café", "Cacao", "Leche", "Agua"};
+    int[] cantidadesActuales = {gCafe, gCacao, gLeche, mlAgua};
+    
+    int ingredienteSeleccionado = seleccionarIngrediente(ingredientes, cantidadesActuales);
+    int cantidadARellenar = solicitarCantidad();
+    
+    if (puedoRecargar(cantidadesActuales[ingredienteSeleccionado], cantidadARellenar)) {
+        realizarRecarga(ingredienteSeleccionado, cantidadARellenar);
+        System.out.println("¡Recarga completa!");
+    } else {
+        System.out.println("Límite superado");
     }
-    public void crearCafe(){
+}
+
+private int seleccionarIngrediente(String[] ingredientes, int[] cantidades) {
+    int seleccion = -1;
+    do {
+        System.out.println("¿Qué quieres rellenar?:");
+        for (int i = 0; i < ingredientes.length; i++) {
+            System.out.println((i + 1) + ". " + ingredientes[i] + ": " + cantidades[i]);
+        }
+        
+        if (teclado.hasNextInt()) {
+            seleccion = teclado.nextInt() - 1;
+            if (seleccion < 0 || seleccion >= ingredientes.length) {
+                System.out.println("⚠️ Opción no válida. Elige del 1 al " + ingredientes.length);
+            }
+        } else {
+            System.out.println("⚠️ Error: Debes introducir un número, no letras.");
+            teclado.next();
+        }
+    } while (seleccion < 0 || seleccion >= ingredientes.length);
+    
+    return seleccion;
+}
+
+private int solicitarCantidad() {
+    int cantidad = -1;
+    System.out.println("Elige la cantidad a rellenar:");
+    
+    do {
+        if (teclado.hasNextInt()) {
+            cantidad = teclado.nextInt();
+            if (cantidad < 1 || cantidad > 1000) {
+                System.out.println("⚠️ La cantidad debe estar entre 1 y 1000.");
+            }
+        } else {
+            System.out.println("⚠️ Error: Debes introducir un número, no letras.");
+            teclado.next();
+        }
+    } while (cantidad < 1 || cantidad > 1000);
+    
+    return cantidad;
+}
+
+private boolean puedoRecargar(int cantidadActual, int cantidadARellenar) {
+    return (cantidadActual + cantidadARellenar) <= 1000;
+}
+
+private void realizarRecarga(int ingrediente, int cantidad) {
+    switch (ingrediente) {
+        case 0: gCafe += cantidad; break;
+        case 1: gCacao += cantidad; break;
+        case 2: gLeche += cantidad; break;
+        case 3: mlAgua += cantidad; break;
+    }
+}    public void crearCafe(){
 
 
         String nombre;
@@ -397,16 +252,8 @@ public class Maquina {
 
     private void mostrarCafes() {
         for (int i = 0; i < Cafes.size(); i++) {
-<<<<<<< HEAD
-            IO.println((i + 1 + ": ") + Cafes.get(i).toString());
-
-        }
-
-
-=======
             System.out.println((i + 1 + ": ") + Cafes.get(i).toString());
 
         }
->>>>>>> e31e172 (Borrando comentarios innecesarios)
     }
 }
