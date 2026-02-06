@@ -22,6 +22,7 @@ public class Maquina {
         Cafes.add(new Cafe("Mocha", 18, 200, 30));
         Cafes.add(new Cafe("Cortado", 18, 20, 0));
         Cafes.add(new Cafe("Chocolate", 0, 100, 50));
+        interfaz();
     }
 
     public String getnSerie() {
@@ -79,7 +80,60 @@ public class Maquina {
     public void setMlAgua(int mlAgua) {
         this.mlAgua = mlAgua;
     }
-    public static String generarNumeroSerie(int cantidadDigitos) {
+
+    private void interfaz() {
+        Scanner sc = new Scanner(System.in);
+
+        boolean salir = false;
+
+        System.out.println("☕BIENVENIDO A TU MÁQUINA DE CAFÉ DE AULA ESTUDIO");
+
+        while (!salir) {
+            System.out.println("\n--- MENÚ DE INTERFAZ ---(Nserie: " + nSerie + ")");
+            System.out.println("1. Pedir un café (Servir)");
+            System.out.println("2. Crear nueva receta de café");
+            System.out.println("3. Recargar suministros");
+            System.out.println("4. Ver estado de suministros");
+            System.out.println("5. Salir");
+            System.out.print("Selecciona una opción: ");
+
+            String opcion = sc.nextLine(); // Leemos como String para evitar errores de buffer
+
+            switch (opcion) {
+                case "1":
+                    pedirCafe();
+                    break;
+                case "2":
+                    crearCafe();
+                    break;
+                case "3":
+                    recargarMaquina();
+                    break;
+                case "4":
+                    imprimirEstado(this);
+                    break;
+                case "5":
+                    System.out.println("¡Gracias por usar la máquina! Saliendo...");
+                    salir = true;
+                    break;
+                default:
+                    System.out.println("⚠️ Opción no válida. Inténtalo de nuevo.");
+                    break;
+            }
+        }
+        sc.close();
+
+
+    }
+
+    private static void imprimirEstado(Maquina m) {
+        System.out.println("\n--- ESTADO DE INGREDIENTES ---");
+        System.out.println("Café: " + m.getgCafe() + "g | Leche: " + m.getgLeche() + "g");
+        System.out.println("Cacao: " + m.getgCacao() + "g | Agua: " + m.getMlAgua() + "ml");
+        System.out.println("Vasos: " + m.getVasos());
+    }
+
+    private static String generarNumeroSerie(int cantidadDigitos) {
         StringBuilder sb = new StringBuilder("SE");
 
         for (int i = 0; i < cantidadDigitos; i++) {
@@ -90,6 +144,7 @@ public class Maquina {
 
         return sb.toString();
     }
+
     public Cafe pedirCafe() {
         Cafe c = null;
         int seleccion = -1;
@@ -154,89 +209,97 @@ public class Maquina {
     }
 
 
-   public void recargarMaquina() {
-    String[] ingredientes = {"Café", "Cacao", "Leche", "Agua", "Salir"};
-    int[] cantidadesActuales = {gCafe, gCacao, gLeche, mlAgua, 0}; // 0 para "Salir"
-    
-    int ingredienteSeleccionado = seleccionarIngrediente(ingredientes, cantidadesActuales);
-    
-    // Si elige "Salir" (última opción), termina el método
-    if (ingredienteSeleccionado == ingredientes.length - 1) {
-        System.out.println("Saliendo del menú de recarga...");
-        return;
-    }
-    
-    int cantidadARellenar = solicitarCantidad();
-    
-    if (puedoRecargar(cantidadesActuales[ingredienteSeleccionado], cantidadARellenar)) {
-        realizarRecarga(ingredienteSeleccionado, cantidadARellenar);
-        System.out.println("¡Recarga completa!");
-    } else {
-        System.out.println("Límite superado");
-    }
-}
+    public void recargarMaquina() {
+        String[] ingredientes = {"Café", "Cacao", "Leche", "Agua", "Salir"};
+        int[] cantidadesActuales = {gCafe, gCacao, gLeche, mlAgua, 0}; // 0 para "Salir"
 
-private int seleccionarIngrediente(String[] ingredientes, int[] cantidades) {
-    int seleccion = -1;
-    do {
-        System.out.println("¿Qué quieres rellenar?:");
-        for (int i = 0; i < ingredientes.length; i++) {
-            // No mostramos cantidad para la opción "Salir"
-            if (i == ingredientes.length - 1) {
-                System.out.println((i + 1) + ". " + ingredientes[i]);
+        int ingredienteSeleccionado = seleccionarIngrediente(ingredientes, cantidadesActuales);
+
+        // Si elige "Salir" (última opción), termina el método
+        if (ingredienteSeleccionado == ingredientes.length - 1) {
+            System.out.println("Saliendo del menú de recarga...");
+            return;
+        }
+
+        int cantidadARellenar = solicitarCantidad();
+
+        if (puedoRecargar(cantidadesActuales[ingredienteSeleccionado], cantidadARellenar)) {
+            realizarRecarga(ingredienteSeleccionado, cantidadARellenar);
+            System.out.println("¡Recarga completa!");
+        } else {
+            System.out.println("Límite superado");
+        }
+    }
+
+    private int seleccionarIngrediente(String[] ingredientes, int[] cantidades) {
+        int seleccion = -1;
+        do {
+            System.out.println("¿Qué quieres rellenar?:");
+            for (int i = 0; i < ingredientes.length; i++) {
+                // No mostramos cantidad para la opción "Salir"
+                if (i == ingredientes.length - 1) {
+                    System.out.println((i + 1) + ". " + ingredientes[i]);
+                } else {
+                    System.out.println((i + 1) + ". " + ingredientes[i] + ": " + cantidades[i]);
+                }
+            }
+
+            if (teclado.hasNextInt()) {
+                seleccion = teclado.nextInt() - 1;
+                if (seleccion < 0 || seleccion >= ingredientes.length) {
+                    System.out.println("⚠️ Opción no válida. Elige del 1 al " + ingredientes.length);
+                }
             } else {
-                System.out.println((i + 1) + ". " + ingredientes[i] + ": " + cantidades[i]);
+                System.out.println("⚠️ Error: Debes introducir un número, no letras.");
+                teclado.next();
             }
-        }
-        
-        if (teclado.hasNextInt()) {
-            seleccion = teclado.nextInt() - 1;
-            if (seleccion < 0 || seleccion >= ingredientes.length) {
-                System.out.println("⚠️ Opción no válida. Elige del 1 al " + ingredientes.length);
-            }
-        } else {
-            System.out.println("⚠️ Error: Debes introducir un número, no letras.");
-            teclado.next();
-        }
-    } while (seleccion < 0 || seleccion >= ingredientes.length);
-    
-    return seleccion;
-}
+        } while (seleccion < 0 || seleccion >= ingredientes.length);
 
-// Los demás métodos permanecen igual
-private int solicitarCantidad() {
-    int cantidad = -1;
-    System.out.println("Elige la cantidad a rellenar(No se puede exceder el limite de 1000):");
-    
-    do {
-        if (teclado.hasNextInt()) {
-            cantidad = teclado.nextInt();
-            if (cantidad < 1 || cantidad > 1000) {
-                System.out.println("⚠️ La cantidad debe estar entre 1 y 1000.");
-            }
-        } else {
-            System.out.println("⚠️ Error: Debes introducir un número entero, no letras.");
-            teclado.next();
-        }
-    } while (cantidad < 1 || cantidad > 1000);
-    
-    return cantidad;
-}
-
-private boolean puedoRecargar(int cantidadActual, int cantidadARellenar) {
-    return (cantidadActual + cantidadARellenar) <= 1000;
-}
-
-private void realizarRecarga(int ingrediente, int cantidad) {
-    switch (ingrediente) {
-        case 0: gCafe += cantidad; break;
-        case 1: gCacao += cantidad; break;
-        case 2: gLeche += cantidad; break;
-        case 3: mlAgua += cantidad; break;
+        return seleccion;
     }
-}
 
-    public void crearCafe(){
+    // Los demás métodos permanecen igual
+    private int solicitarCantidad() {
+        int cantidad = -1;
+        System.out.println("Elige la cantidad a rellenar(No se puede exceder el limite de 1000):");
+
+        do {
+            if (teclado.hasNextInt()) {
+                cantidad = teclado.nextInt();
+                if (cantidad < 1 || cantidad > 1000) {
+                    System.out.println("⚠️ La cantidad debe estar entre 1 y 1000.");
+                }
+            } else {
+                System.out.println("⚠️ Error: Debes introducir un número entero, no letras.");
+                teclado.next();
+            }
+        } while (cantidad < 1 || cantidad > 1000);
+
+        return cantidad;
+    }
+
+    private boolean puedoRecargar(int cantidadActual, int cantidadARellenar) {
+        return (cantidadActual + cantidadARellenar) <= 1000;
+    }
+
+    private void realizarRecarga(int ingrediente, int cantidad) {
+        switch (ingrediente) {
+            case 0:
+                gCafe += cantidad;
+                break;
+            case 1:
+                gCacao += cantidad;
+                break;
+            case 2:
+                gLeche += cantidad;
+                break;
+            case 3:
+                mlAgua += cantidad;
+                break;
+        }
+    }
+
+    public void crearCafe() {
 
 
         String nombre;
@@ -256,11 +319,12 @@ private void realizarRecarga(int ingrediente, int cantidad) {
                 System.out.println("⚠️ Nombre no válido. Asegúrate de no usar números ni dejarlo vacío.");
             }
         }
-        Cafe c=new Cafe(nombre,gCafe,gLeche,gCacao);
+        Cafe c = new Cafe(nombre, gCafe, gLeche, gCacao);
         Cafes.add(c);
 
 
     }
+
     // Método reutilizable para validar cada ingrediente
     public static int validarGramo(Scanner sc, String ingrediente) {
         int valor = -1;

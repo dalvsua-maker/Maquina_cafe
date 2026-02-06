@@ -3,56 +3,12 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-   
 
-    // Inicializamos la máquina
-    Maquina miMaquina = new Maquina(10);
-    Scanner sc = new Scanner(System.in);
-    boolean salir = false;
 
-    System.out.println("☕BIENVENIDO A TU MÁQUINA DE CAFÉ DE AULA ESTUDIO");
+        // Inicializamos la máquina
+        Maquina miMaquina = new Maquina(10);
 
-    while (!salir) {
-        System.out.println("\n--- MENÚ DE INTERFAZ ---(Nserie: "+ miMaquina.nSerie+ ")");
-        System.out.println("1. Pedir un café (Servir)");
-        System.out.println("2. Crear nueva receta de café");
-        System.out.println("3. Recargar suministros");
-        System.out.println("4. Ver estado de suministros");
-        System.out.println("5. Salir");
-        System.out.print("Selecciona una opción: ");
-
-        String opcion = sc.nextLine(); // Leemos como String para evitar errores de buffer
-
-        switch (opcion) {
-            case "1":
-                miMaquina.pedirCafe();
-                break;
-            case "2":
-                miMaquina.crearCafe();
-                break;
-            case "3":
-                miMaquina.recargarMaquina();
-                break;
-            case "4":
-                imprimirEstado(miMaquina);
-                break;
-            case "5":
-                System.out.println("¡Gracias por usar la máquina! Saliendo...");
-                salir = true;
-                break;
-            default:
-                System.out.println("⚠️ Opción no válida. Inténtalo de nuevo.");
-                break;
-        }
-    }
-    sc.close();
     }
 
-    // Método auxiliar para visualizar rápidamente el stock actual
-    public static void imprimirEstado(Maquina m) {
-        System.out.println("\n--- ESTADO DE INGREDIENTES ---");
-        System.out.println("Café: " + m.getgCafe() + "g | Leche: " + m.getgLeche() + "g");
-        System.out.println("Cacao: " + m.getgCacao() + "g | Agua: " + m.getMlAgua() + "ml");
-        System.out.println("Vasos: " + m.getVasos());
-    }
+
 }
