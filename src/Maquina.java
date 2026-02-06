@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Maquina {
     String nSerie = "";
@@ -7,13 +8,13 @@ public class Maquina {
 
     ArrayList<Cafe> Cafes = new ArrayList<Cafe>();
     int vasos = 100;
-    int gCafe = 100;
-    int gLeche = 1000;
+    int gCafe = 10;
+    int gLeche = 10;
     int gCacao = 1000;
-    int mlAgua = 1000;
+    int mlAgua = 10;
 
-    public Maquina(String nSerie) {
-        this.nSerie = nSerie;
+    public Maquina(int longitud) {
+        this.nSerie = generarNumeroSerie(longitud);
         Cafes.add(new Cafe("Espresso", 18, 0, 0));
         Cafes.add(new Cafe("Macchiato", 18, 10, 0));
         Cafes.add(new Cafe("Capuccino", 18, 150, 5));
@@ -78,61 +79,80 @@ public class Maquina {
     public void setMlAgua(int mlAgua) {
         this.mlAgua = mlAgua;
     }
+    public static String generarNumeroSerie(int cantidadDigitos) {
+        StringBuilder sb = new StringBuilder("SE");
 
+        for (int i = 0; i < cantidadDigitos; i++) {
+            // Genera un número entre 0 (inclusivo) y 10 (exclusivo)
+            int digito = ThreadLocalRandom.current().nextInt(0, 10);
+            sb.append(digito);
+        }
+
+        return sb.toString();
+    }
     public Cafe pedirCafe() {
         Cafe c = null;
-
         int seleccion = -1;
 
+        // 1. Selección del café
         do {
             mostrarCafes();
             System.out.print("Introduce el número de tu elección: ");
-
-            // Validamos que sea un número para evitar errores (InputMismatchException)
             if (teclado.hasNextInt()) {
                 seleccion = teclado.nextInt() - 1;
-
-                // Si el número no está entre 1 y 7, avisamos
-                if (seleccion < 0 || seleccion > Cafes.size()-1) {
-                    System.out.println("⚠️ Opción no válida. Por favor, elige del 1 al 7.");
+                if (seleccion < 0 || seleccion > Cafes.size() - 1) {
+                    System.out.println("⚠️ Opción no válida.");
                 }
             } else {
-                System.out.println("⚠️ Error: Debes introducir un número, no letras.");
-                teclado.next(); // Limpia el buffer para evitar un bucle infinito
+                System.out.println("⚠️ Error: Debes introducir un número.");
+                teclado.next();
             }
+        } while (seleccion < 0 || seleccion > Cafes.size() - 1);
 
-        } while (seleccion < 0 || seleccion > Cafes.size()-1);
         c = Cafes.get(seleccion);
-        if (c.gCafe > gCafe) {
-            System.out.println("Cafe no disponible,falta cafe");
-            c = null;
-        } else if (c.gLeche > gLeche) {
-            System.out.println("Cafe no disponible,falta leche");
-            c = null;
 
-        } else if (c.gCacao > gCacao) {
-            System.out.println("Cafe no disponible,falta Cacao");
-            c = null;
+        // 2. Validación de ingredientes (Acumulativa)
+        boolean hayStock = true;
+        StringBuilder errores = new StringBuilder("❌ No se puede preparar el café por falta de:\n");
 
-        } else if (vasos < 1) {
-            System.out.println("Cafe no disponible,faltan vasos");
-            c = null;
-
-        } else if (mlAgua < (c.gCafe + c.gLeche + c.gCacao)) {
-            System.out.println("Cafe no disponible,falta agua");
-            c = null;
-
-        } else {
-            gCafe = gCafe - c.gCafe;
-            gCacao = gCacao - c.gCacao;
-            gLeche = gLeche - c.gLeche;
-            mlAgua = mlAgua - (c.gCafe + c.gCacao + c.gLeche);
-            vasos = vasos - 1;
-            System.out.println("Cafe servido!");
+        if (gCafe < c.gCafe) {
+            errores.append("- Café\n");
+            hayStock = false;
+        }
+        if (gLeche < c.gLeche) {
+            errores.append("- Leche\n");
+            hayStock = false;
+        }
+        if (gCacao < c.gCacao) {
+            errores.append("- Cacao\n");
+            hayStock = false;
+        }
+        if (vasos < 1) {
+            errores.append("- Vasos\n");
+            hayStock = false;
+        }
+        if (mlAgua < (c.gCafe + c.gLeche + c.gCacao)) {
+            errores.append("- Agua\n");
+            hayStock = false;
         }
 
-        return c;
+        // 3. Resultado final
+        if (!hayStock) {
+            System.out.println(errores.toString());
+            return null; // Retornamos null si falta algo
+        } else {
+            // Descontar ingredientes
+            gCafe -= c.gCafe;
+            gCacao -= c.gCacao;
+            gLeche -= c.gLeche;
+            mlAgua -= (c.gCafe + c.gCacao + c.gLeche);
+            vasos--;
+
+            System.out.println("☕ ¡Café servido! Disfrute su " + c.nombre);
+            return c;
+        }
     }
+
 
    public void recargarMaquina() {
     String[] ingredientes = {"Café", "Cacao", "Leche", "Agua", "Salir"};
@@ -186,7 +206,7 @@ private int seleccionarIngrediente(String[] ingredientes, int[] cantidades) {
 // Los demás métodos permanecen igual
 private int solicitarCantidad() {
     int cantidad = -1;
-    System.out.println("Elige la cantidad a rellenar:");
+    System.out.println("Elige la cantidad a rellenar(No se puede exceder el limite de 1000):");
     
     do {
         if (teclado.hasNextInt()) {
@@ -195,7 +215,7 @@ private int solicitarCantidad() {
                 System.out.println("⚠️ La cantidad debe estar entre 1 y 1000.");
             }
         } else {
-            System.out.println("⚠️ Error: Debes introducir un número, no letras.");
+            System.out.println("⚠️ Error: Debes introducir un número entero, no letras.");
             teclado.next();
         }
     } while (cantidad < 1 || cantidad > 1000);
@@ -266,9 +286,20 @@ private void realizarRecarga(int ingrediente, int cantidad) {
 
 
     private void mostrarCafes() {
-        for (int i = 0; i < Cafes.size(); i++) {
-            System.out.println((i + 1 + ": ") + Cafes.get(i).toString());
+        System.out.println("\n======= MENÚ DE CAFÉS =======");
+        // Definimos la cabecera: %-3s (ID), %-15s (Nombre), %-25s (Ingredientes)
+        // El signo '-' alinea el texto a la izquierda
+        System.out.printf("%-3s | %-15s | %s%n", "ID", "NOMBRE", "INGREDIENTES");
+        System.out.println("---------------------------------------------------------");
 
+        for (int i = 0; i < Cafes.size(); i++) {
+            Cafe c = Cafes.get(i);
+            String ingredientes = String.format("C:%dg L:%dg Ca:%dg", c.gCafe, c.gLeche, c.gCacao);
+
+            // %-3d: entero, 3 espacios. %-15s: texto, 15 espacios.
+            System.out.printf("%-3d | %-15s | %s%n", (i + 1), c.nombre, ingredientes);
         }
+        System.out.println("---------------------------------------------------------");
     }
+
 }

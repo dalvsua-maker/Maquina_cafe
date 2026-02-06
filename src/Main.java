@@ -6,14 +6,14 @@ public class Main {
    
 
     // Inicializamos la máquina
-    Maquina miMaquina = new Maquina("Se312345678");
+    Maquina miMaquina = new Maquina(10);
     Scanner sc = new Scanner(System.in);
     boolean salir = false;
 
     System.out.println("☕BIENVENIDO A TU MÁQUINA DE CAFÉ DE AULA ESTUDIO");
 
     while (!salir) {
-        System.out.println("\n--- MENÚ DE INTERFAZ ---");
+        System.out.println("\n--- MENÚ DE INTERFAZ ---(Nserie: "+ miMaquina.nSerie+ ")");
         System.out.println("1. Pedir un café (Servir)");
         System.out.println("2. Crear nueva receta de café");
         System.out.println("3. Recargar suministros");
