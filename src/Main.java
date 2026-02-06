@@ -10,7 +10,7 @@ public class Main {
     Scanner sc = new Scanner(System.in);
     boolean salir = false;
 
-    System.out.println("☕ BIENVENIDO A TU MÁQUINA DE CAFÉ ☕");
+    System.out.println("☕BIENVENIDO A TU MÁQUINA DE CAFÉ DE AULA ESTUDIO");
 
     while (!salir) {
         System.out.println("\n--- MENÚ DE INTERFAZ ---");

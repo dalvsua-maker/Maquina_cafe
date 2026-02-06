@@ -135,10 +135,17 @@ public class Maquina {
     }
 
    public void recargarMaquina() {
-    String[] ingredientes = {"Café", "Cacao", "Leche", "Agua"};
-    int[] cantidadesActuales = {gCafe, gCacao, gLeche, mlAgua};
+    String[] ingredientes = {"Café", "Cacao", "Leche", "Agua", "Salir"};
+    int[] cantidadesActuales = {gCafe, gCacao, gLeche, mlAgua, 0}; // 0 para "Salir"
     
     int ingredienteSeleccionado = seleccionarIngrediente(ingredientes, cantidadesActuales);
+    
+    // Si elige "Salir" (última opción), termina el método
+    if (ingredienteSeleccionado == ingredientes.length - 1) {
+        System.out.println("Saliendo del menú de recarga...");
+        return;
+    }
+    
     int cantidadARellenar = solicitarCantidad();
     
     if (puedoRecargar(cantidadesActuales[ingredienteSeleccionado], cantidadARellenar)) {
@@ -154,7 +161,12 @@ private int seleccionarIngrediente(String[] ingredientes, int[] cantidades) {
     do {
         System.out.println("¿Qué quieres rellenar?:");
         for (int i = 0; i < ingredientes.length; i++) {
-            System.out.println((i + 1) + ". " + ingredientes[i] + ": " + cantidades[i]);
+            // No mostramos cantidad para la opción "Salir"
+            if (i == ingredientes.length - 1) {
+                System.out.println((i + 1) + ". " + ingredientes[i]);
+            } else {
+                System.out.println((i + 1) + ". " + ingredientes[i] + ": " + cantidades[i]);
+            }
         }
         
         if (teclado.hasNextInt()) {
@@ -171,6 +183,7 @@ private int seleccionarIngrediente(String[] ingredientes, int[] cantidades) {
     return seleccion;
 }
 
+// Los demás métodos permanecen igual
 private int solicitarCantidad() {
     int cantidad = -1;
     System.out.println("Elige la cantidad a rellenar:");
@@ -201,7 +214,9 @@ private void realizarRecarga(int ingrediente, int cantidad) {
         case 2: gLeche += cantidad; break;
         case 3: mlAgua += cantidad; break;
     }
-}    public void crearCafe(){
+}
+
+    public void crearCafe(){
 
 
         String nombre;
