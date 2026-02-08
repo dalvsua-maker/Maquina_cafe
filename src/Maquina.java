@@ -80,9 +80,11 @@ public class Maquina {
     public void setMlAgua(int mlAgua) {
         this.mlAgua = mlAgua;
     }
-
+public void cerrarScanner() {
+    teclado.close();
+}
     private void interfaz() {
-        Scanner sc = new Scanner(System.in);
+       
 
         boolean salir = false;
 
@@ -97,7 +99,7 @@ public class Maquina {
             System.out.println("5. Salir");
             System.out.print("Selecciona una opción: ");
 
-            String opcion = sc.nextLine(); // Leemos como String para evitar errores de buffer
+            String opcion = teclado.nextLine(); // Leemos como String para evitar errores de buffer
 
             switch (opcion) {
                 case "1":
@@ -121,7 +123,7 @@ public class Maquina {
                     break;
             }
         }
-        sc.close();
+     
 
 
     }
@@ -155,12 +157,13 @@ public class Maquina {
             System.out.print("Introduce el número de tu elección: ");
             if (teclado.hasNextInt()) {
                 seleccion = teclado.nextInt() - 1;
+                teclado.nextLine();
                 if (seleccion < 0 || seleccion > Cafes.size() - 1) {
                     System.out.println("⚠️ Opción no válida.");
                 }
             } else {
                 System.out.println("⚠️ Error: Debes introducir un número.");
-                teclado.next();
+                teclado.nextLine();
             }
         } while (seleccion < 0 || seleccion > Cafes.size() - 1);
 
@@ -246,12 +249,13 @@ public class Maquina {
 
             if (teclado.hasNextInt()) {
                 seleccion = teclado.nextInt() - 1;
+                 teclado.nextLine();
                 if (seleccion < 0 || seleccion >= ingredientes.length) {
                     System.out.println("⚠️ Opción no válida. Elige del 1 al " + ingredientes.length);
                 }
             } else {
                 System.out.println("⚠️ Error: Debes introducir un número, no letras.");
-                teclado.next();
+               teclado.nextLine();
             }
         } while (seleccion < 0 || seleccion >= ingredientes.length);
 
@@ -266,12 +270,13 @@ public class Maquina {
         do {
             if (teclado.hasNextInt()) {
                 cantidad = teclado.nextInt();
+                teclado.nextLine();
                 if (cantidad < 1 || cantidad > 1000) {
                     System.out.println("⚠️ La cantidad debe estar entre 1 y 1000.");
                 }
             } else {
                 System.out.println("⚠️ Error: Debes introducir un número entero, no letras.");
-                teclado.next();
+               teclado.nextLine();
             }
         } while (cantidad < 1 || cantidad > 1000);
 

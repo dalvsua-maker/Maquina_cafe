@@ -7,7 +7,7 @@ public class Main {
 
         // Inicializamos la máquina
         Maquina miMaquina = new Maquina(10);
-
+miMaquina.cerrarScanner();
     }
 
 
