@@ -162,55 +162,50 @@ public class Maquina {
         return sb.toString();
     }
 
-    public Cafe pedirCafe() {
-        Cafe c = null;
-        int seleccion = -1;
-        mostrarCafes();
-        seleccion = leerEnteroEnRango("Introduce el número de tu elección: ", 1, Cafes.size()) - 1;
-
-        c = Cafes.get(seleccion);
-
-        // 2. Validación de ingredientes (Acumulativa)
-        boolean hayStock = true;
-        StringBuilder errores = new StringBuilder("❌ No se puede preparar el café por falta de:\n");
-
-        if (gCafe < c.gCafe) {
-            errores.append("- Café\n");
-            hayStock = false;
-        }
-        if (gLeche < c.gLeche) {
-            errores.append("- Leche\n");
-            hayStock = false;
-        }
-        if (gCacao < c.gCacao) {
-            errores.append("- Cacao\n");
-            hayStock = false;
-        }
-        if (vasos < 1) {
-            errores.append("- Vasos\n");
-            hayStock = false;
-        }
-        if (mlAgua < (c.gCafe + c.gLeche + c.gCacao)) {
-            errores.append("- Agua\n");
-            hayStock = false;
-        }
-
-        // 3. Resultado final
-        if (!hayStock) {
-            System.out.println(errores.toString());
-            return null; // Retornamos null si falta algo
-        } else {
-            // Descontar ingredientes
-            gCafe -= c.gCafe;
-            gCacao -= c.gCacao;
-            gLeche -= c.gLeche;
-            mlAgua -= (c.gCafe + c.gCacao + c.gLeche);
-            vasos--;
-
-            System.out.println("☕ ¡Café servido! Disfrute su " + c.nombre);
-            return c;
-        }
+public Cafe pedirCafe() {
+    Cafe cafeSeleccionado = seleccionarCafeDelMenu();
+    
+    if (verificarStock(cafeSeleccionado)) {
+        return servirCafe(cafeSeleccionado);
+    } else {
+        mostrarErroresStock(cafeSeleccionado);
+        return null;
     }
+}
+
+private Cafe seleccionarCafeDelMenu() {
+    mostrarCafes();
+    int seleccion = leerEnteroEnRango("Introduce el número de tu elección: ", 1, Cafes.size()) - 1;
+    return Cafes.get(seleccion);
+}
+
+private boolean verificarStock(Cafe c) {
+    return gCafe >= c.getgCafe() 
+        && gLeche >= c.getgLeche() 
+        && gCacao >= c.getgCacao() 
+        && vasos >= 1 
+        && mlAgua >= (c.getgCafe() + c.getgLeche() + c.getgCacao());
+}
+
+private void mostrarErroresStock(Cafe c) {
+    StringBuilder errores = new StringBuilder("❌ No se puede preparar el café por falta de:\n");
+    if (gCafe < c.getgCafe()) errores.append("- Café\n");
+    if (gLeche < c.getgLeche()) errores.append("- Leche\n");
+    if (gCacao < c.getgCacao()) errores.append("- Cacao\n");
+    if (vasos < 1) errores.append("- Vasos\n");
+    if (mlAgua < (c.getgCafe() + c.getgLeche() + c.getgCacao())) errores.append("- Agua\n");
+    System.out.println(errores.toString());
+}
+
+private Cafe servirCafe(Cafe c) {
+    gCafe -= c.getgCafe();
+    gLeche -= c.getgLeche();
+    gCacao -= c.getgCacao();
+    mlAgua -= (c.getgCafe() + c.getgLeche() + c.getgCacao());
+    vasos--;
+    System.out.println("☕ ¡Café servido! Disfrute su " + c.getNombre());
+    return c;
+}
 
     public void recargarMaquina() {
         String[] ingredientes = { "Café", "Cacao", "Leche", "Agua", "Vasos", "Salir" }; // ✅ Añadir Vasos
@@ -275,30 +270,43 @@ public class Maquina {
     private boolean puedoRecargar(int cantidadActual, int cantidadARellenar) {
         return (cantidadActual + cantidadARellenar) <= MAX_CAPACIDAD; // ✅ Usar constante
     }
+public void crearCafe() {
+    System.out.println("\n--- CREAR NUEVA RECETA ---");
+    
+    int gCafe = leerEnteroEnRango("Introduce los gramos de Café (1-200): ", MIN_GRAMOS_RECETA, MAX_GRAMOS_RECETA);
+    int gLeche = leerEnteroEnRango("Introduce los gramos de Leche (1-200): ", MIN_GRAMOS_RECETA, MAX_GRAMOS_RECETA);
+    int gCacao = leerEnteroEnRango("Introduce los gramos de Cacao (1-200): ", MIN_GRAMOS_RECETA, MAX_GRAMOS_RECETA);
 
-    public void crearCafe() {
-        System.out.println("\n--- CREAR NUEVA RECETA ---");
-
-        int gCafe = leerEnteroEnRango("Introduce los gramos de Café (1-200): ", 1, 200);
-        int gLeche = leerEnteroEnRango("Introduce los gramos de Leche (1-200): ", 1, 200);
-        int gCacao = leerEnteroEnRango("Introduce los gramos de Cacao (1-200): ", 1, 200);
-
-        String nombre;
-        while (true) {
-            System.out.print("Introduce el nombre del nuevo café: ");
-            nombre = teclado.nextLine().trim();
-
-            if (!nombre.isEmpty() && nombre.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$")) {
-                break;
-            } else {
-                System.out.println("⚠️ Nombre no válido. Asegúrate de no usar números ni dejarlo vacío.");
-            }
-        }
-
-        Cafe c = new Cafe(nombre, gCafe, gLeche, gCacao);
-        Cafes.add(c);
-        System.out.println("✅ ¡Café '" + nombre + "' creado exitosamente!");
+    String nombre = leerNombreCafe();
+    
+    // ✅ Validar duplicados
+    if (existeCafe(nombre)) {
+        System.out.println("⚠️ Ya existe un café con ese nombre.");
+        return;
     }
+    
+    Cafe c = new Cafe(nombre, gCafe, gLeche, gCacao);
+    Cafes.add(c);
+    System.out.println("✅ ¡Café '" + nombre + "' creado exitosamente!");
+}
+
+private boolean existeCafe(String nombre) {
+    return Cafes.stream()
+                .anyMatch(cafe -> cafe.getNombre().equalsIgnoreCase(nombre));
+}
+
+private String leerNombreCafe() {
+    String nombre;
+    while (true) {
+        System.out.print("Introduce el nombre del nuevo café: ");
+        nombre = teclado.nextLine().trim();
+
+        if (!nombre.isEmpty() && nombre.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$")) {
+            return nombre;
+        }
+        System.out.println("⚠️ Nombre no válido. No uses números ni lo dejes vacío.");
+    }
+}
 
     /**
      * Lee un entero del usuario dentro de un rango válido
