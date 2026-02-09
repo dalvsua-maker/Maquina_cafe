@@ -24,14 +24,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
     public Maquina(int longitud) {
         this.nSerie = generarNumeroSerie(longitud);
-        Cafes.add(new Cafe("Espresso", 18, 0, 0));
-        Cafes.add(new Cafe("Macchiato", 18, 10, 0));
-        Cafes.add(new Cafe("Capuccino", 18, 150, 5));
-        Cafes.add(new Cafe("Latte", 18, 250, 0));
-        Cafes.add(new Cafe("Mocha", 18, 200, 30));
-        Cafes.add(new Cafe("Cortado", 18, 20, 0));
-        Cafes.add(new Cafe("Chocolate", 0, 100, 50));
-        interfaz();
+       inicializarMenuCafes();
+      
     }
 
     public String getnSerie() {
@@ -89,6 +83,18 @@ import java.util.concurrent.ThreadLocalRandom;
     public void setMlAgua(int mlAgua) {
         this.mlAgua = mlAgua;
     }
+    private void inicializarMenuCafes() {
+   Cafes.add(new Cafe("Espresso", 18, 0, 0));
+        Cafes.add(new Cafe("Macchiato", 18, 10, 0));
+        Cafes.add(new Cafe("Capuccino", 18, 150, 5));
+        Cafes.add(new Cafe("Latte", 18, 250, 0));
+        Cafes.add(new Cafe("Mocha", 18, 200, 30));
+        Cafes.add(new Cafe("Cortado", 18, 20, 0));
+        Cafes.add(new Cafe("Chocolate", 0, 100, 50));
+}
+public void iniciar() {
+    interfaz(); // ✅ Llamar externamente
+}
 public void cerrarScanner() {
     teclado.close();
 }
