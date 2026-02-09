@@ -1,3 +1,5 @@
+package Java.Practica5.src;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
