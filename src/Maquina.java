@@ -2,8 +2,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
-
- public class Maquina {
+public class Maquina {
     // Constantes
     private static final int MAX_CAPACIDAD = 1000;
     private static final int MAX_GRAMOS_RECETA = 200;
@@ -11,7 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
     private static final int CAPACIDAD_INICIAL_INGREDIENTES = 10;
     private static final int CAPACIDAD_INICIAL_VASOS = 100;
     private static final int CAPACIDAD_INICIAL_CACAO = 1000;
-    
+
     String nSerie = "";
     private static final Scanner teclado = new Scanner(System.in);
 
@@ -24,8 +23,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
     public Maquina(int longitud) {
         this.nSerie = generarNumeroSerie(longitud);
-       inicializarMenuCafes();
-      
+        inicializarMenuCafes();
+
     }
 
     public String getnSerie() {
@@ -83,24 +82,26 @@ import java.util.concurrent.ThreadLocalRandom;
     public void setMlAgua(int mlAgua) {
         this.mlAgua = mlAgua;
     }
+
     private void inicializarMenuCafes() {
-   Cafes.add(new Cafe("Espresso", 18, 0, 0));
+        Cafes.add(new Cafe("Espresso", 18, 0, 0));
         Cafes.add(new Cafe("Macchiato", 18, 10, 0));
         Cafes.add(new Cafe("Capuccino", 18, 150, 5));
         Cafes.add(new Cafe("Latte", 18, 250, 0));
         Cafes.add(new Cafe("Mocha", 18, 200, 30));
         Cafes.add(new Cafe("Cortado", 18, 20, 0));
         Cafes.add(new Cafe("Chocolate", 0, 100, 50));
-}
-public void iniciar() {
-    interfaz(); // ✅ Llamar externamente
-}
-public void cerrarScanner() {
-    teclado.close();
-}
+    }
+
+    public void iniciar() {
+        interfaz(); // ✅ Llamar externamente
+    }
+
+    public void cerrarScanner() {
+        teclado.close();
+    }
 
     private void interfaz() {
-       
 
         boolean salir = false;
 
@@ -139,8 +140,6 @@ public void cerrarScanner() {
                     break;
             }
         }
-     
-
 
     }
 
@@ -166,9 +165,8 @@ public void cerrarScanner() {
     public Cafe pedirCafe() {
         Cafe c = null;
         int seleccion = -1;
-mostrarCafes();
- seleccion = leerEnteroEnRango("Introduce el número de tu elección: ", 1, Cafes.size()) - 1;
-     
+        mostrarCafes();
+        seleccion = leerEnteroEnRango("Introduce el número de tu elección: ", 1, Cafes.size()) - 1;
 
         c = Cafes.get(seleccion);
 
@@ -214,126 +212,124 @@ mostrarCafes();
         }
     }
 
+    public void recargarMaquina() {
+        String[] ingredientes = { "Café", "Cacao", "Leche", "Agua", "Vasos", "Salir" }; // ✅ Añadir Vasos
+        int[] cantidadesActuales = { gCafe, gCacao, gLeche, mlAgua, vasos, 0 }; // ✅ Añadir vasos
 
-public void recargarMaquina() {
-    String[] ingredientes = {"Café", "Cacao", "Leche", "Agua", "Vasos", "Salir"}; // ✅ Añadir Vasos
-    int[] cantidadesActuales = {gCafe, gCacao, gLeche, mlAgua, vasos, 0}; // ✅ Añadir vasos
+        int ingredienteSeleccionado = seleccionarIngrediente(ingredientes, cantidadesActuales);
 
-    int ingredienteSeleccionado = seleccionarIngrediente(ingredientes, cantidadesActuales);
+        if (ingredienteSeleccionado == ingredientes.length - 1) {
+            System.out.println("Saliendo del menú de recarga...");
+            return;
+        }
 
-    if (ingredienteSeleccionado == ingredientes.length - 1) {
-        System.out.println("Saliendo del menú de recarga...");
-        return;
-    }
+        int cantidadARellenar = solicitarCantidad();
 
-    int cantidadARellenar = solicitarCantidad();
-
-    if (puedoRecargar(cantidadesActuales[ingredienteSeleccionado], cantidadARellenar)) {
-        realizarRecarga(ingredienteSeleccionado, cantidadARellenar);
-        System.out.println("¡Recarga completa!");
-    } else {
-        System.out.println("Límite superado");
-    }
-}
-
-private void realizarRecarga(int ingrediente, int cantidad) {
-    switch (ingrediente) {
-        case 0:
-            gCafe += cantidad;
-            break;
-        case 1:
-            gCacao += cantidad;
-            break;
-        case 2:
-            gLeche += cantidad;
-            break;
-        case 3:
-            mlAgua += cantidad;
-            break;
-        case 4: // ✅ AÑADIR ESTE CASO
-            vasos += cantidad;
-            break;
-    }
-}
-private int seleccionarIngrediente(String[] ingredientes, int[] cantidades) {
-    System.out.println("¿Qué quieres rellenar?:");
-    for (int i = 0; i < ingredientes.length; i++) {
-        if (i == ingredientes.length - 1) {
-            System.out.println((i + 1) + ". " + ingredientes[i]);
+        if (puedoRecargar(cantidadesActuales[ingredienteSeleccionado], cantidadARellenar)) {
+            realizarRecarga(ingredienteSeleccionado, cantidadARellenar);
+            System.out.println("¡Recarga completa!");
         } else {
-            System.out.println((i + 1) + ". " + ingredientes[i] + ": " + cantidades[i]);
+            System.out.println("Límite superado");
         }
     }
-    
-    return leerEnteroEnRango("Selecciona una opción: ", 1, ingredientes.length) - 1;
-}
+
+    private void realizarRecarga(int ingrediente, int cantidad) {
+        switch (ingrediente) {
+            case 0:
+                gCafe += cantidad;
+                break;
+            case 1:
+                gCacao += cantidad;
+                break;
+            case 2:
+                gLeche += cantidad;
+                break;
+            case 3:
+                mlAgua += cantidad;
+                break;
+            case 4: // ✅ AÑADIR ESTE CASO
+                vasos += cantidad;
+                break;
+        }
+    }
+
+    private int seleccionarIngrediente(String[] ingredientes, int[] cantidades) {
+        System.out.println("¿Qué quieres rellenar?:");
+        for (int i = 0; i < ingredientes.length; i++) {
+            if (i == ingredientes.length - 1) {
+                System.out.println((i + 1) + ". " + ingredientes[i]);
+            } else {
+                System.out.println((i + 1) + ". " + ingredientes[i] + ": " + cantidades[i]);
+            }
+        }
+
+        return leerEnteroEnRango("Selecciona una opción: ", 1, ingredientes.length) - 1;
+    }
 
     // Los demás métodos permanecen igual
-private int solicitarCantidad() {
-    System.out.println("Elige la cantidad a rellenar (No se puede exceder el límite de " + MAX_CAPACIDAD + "):");
-    return leerEnteroEnRango("Cantidad: ", 1, MAX_CAPACIDAD);
-}
-
-  private boolean puedoRecargar(int cantidadActual, int cantidadARellenar) {
-    return (cantidadActual + cantidadARellenar) <= MAX_CAPACIDAD; // ✅ Usar constante
-}
-
-
-
-public void crearCafe() {
-    System.out.println("\n--- CREAR NUEVA RECETA ---");
-    
-    int gCafe = leerEnteroEnRango("Introduce los gramos de Café (1-200): ", 1, 200);
-    int gLeche = leerEnteroEnRango("Introduce los gramos de Leche (1-200): ", 1, 200);
-    int gCacao = leerEnteroEnRango("Introduce los gramos de Cacao (1-200): ", 1, 200);
-
-    String nombre;
-    while (true) {
-        System.out.print("Introduce el nombre del nuevo café: ");
-        nombre = teclado.nextLine().trim();
-
-        if (!nombre.isEmpty() && nombre.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$")) {
-            break;
-        } else {
-            System.out.println("⚠️ Nombre no válido. Asegúrate de no usar números ni dejarlo vacío.");
-        }
+    private int solicitarCantidad() {
+        System.out.println("Elige la cantidad a rellenar (No se puede exceder el límite de " + MAX_CAPACIDAD + "):");
+        return leerEnteroEnRango("Cantidad: ", 1, MAX_CAPACIDAD);
     }
-    
-    Cafe c = new Cafe(nombre, gCafe, gLeche, gCacao);
-    Cafes.add(c);
-    System.out.println("✅ ¡Café '" + nombre + "' creado exitosamente!");
-}
 
+    private boolean puedoRecargar(int cantidadActual, int cantidadARellenar) {
+        return (cantidadActual + cantidadARellenar) <= MAX_CAPACIDAD; // ✅ Usar constante
+    }
 
+    public void crearCafe() {
+        System.out.println("\n--- CREAR NUEVA RECETA ---");
 
-/**
- * Lee un entero del usuario dentro de un rango válido
- * @param mensaje Mensaje a mostrar
- * @param min Valor mínimo aceptable
- * @param max Valor máximo aceptable
- * @return El entero validado
- */
-private int leerEnteroEnRango(String mensaje, int min, int max) {
-    int valor = -1;
-    
-    do {
-        System.out.print(mensaje);
-        
-        if (teclado.hasNextInt()) {
-            valor = teclado.nextInt();
-            teclado.nextLine(); // Limpiar buffer
-            
-            if (valor < min || valor > max) {
-                System.out.println("⚠️ El valor debe estar entre " + min + " y " + max);
+        int gCafe = leerEnteroEnRango("Introduce los gramos de Café (1-200): ", 1, 200);
+        int gLeche = leerEnteroEnRango("Introduce los gramos de Leche (1-200): ", 1, 200);
+        int gCacao = leerEnteroEnRango("Introduce los gramos de Cacao (1-200): ", 1, 200);
+
+        String nombre;
+        while (true) {
+            System.out.print("Introduce el nombre del nuevo café: ");
+            nombre = teclado.nextLine().trim();
+
+            if (!nombre.isEmpty() && nombre.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$")) {
+                break;
+            } else {
+                System.out.println("⚠️ Nombre no válido. Asegúrate de no usar números ni dejarlo vacío.");
             }
-        } else {
-            System.out.println("⚠️ Error: Debes introducir un número entero.");
-            teclado.nextLine(); // Limpiar buffer
         }
-    } while (valor < min || valor > max);
-    
-    return valor;
-}
+
+        Cafe c = new Cafe(nombre, gCafe, gLeche, gCacao);
+        Cafes.add(c);
+        System.out.println("✅ ¡Café '" + nombre + "' creado exitosamente!");
+    }
+
+    /**
+     * Lee un entero del usuario dentro de un rango válido
+     * 
+     * @param mensaje Mensaje a mostrar
+     * @param min     Valor mínimo aceptable
+     * @param max     Valor máximo aceptable
+     * @return El entero validado
+     */
+    private int leerEnteroEnRango(String mensaje, int min, int max) {
+        int valor = -1;
+
+        do {
+            System.out.print(mensaje);
+
+            if (teclado.hasNextInt()) {
+                valor = teclado.nextInt();
+                teclado.nextLine(); // Limpiar buffer
+
+                if (valor < min || valor > max) {
+                    System.out.println("⚠️ El valor debe estar entre " + min + " y " + max);
+                }
+            } else {
+                System.out.println("⚠️ Error: Debes introducir un número entero.");
+                teclado.nextLine(); // Limpiar buffer
+            }
+        } while (valor < min || valor > max);
+
+        return valor;
+    }
+
     private void mostrarCafes() {
         System.out.println("\n======= MENÚ DE CAFÉS =======");
         // Definimos la cabecera: %-3s (ID), %-15s (Nombre), %-25s (Ingredientes)
