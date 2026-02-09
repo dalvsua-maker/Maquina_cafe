@@ -1,4 +1,4 @@
-package Java.Practica5.src;
+
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -23,8 +23,8 @@ public class Maquina {
     int gCacao = CAPACIDAD_INICIAL_CACAO;
     int mlAgua = CAPACIDAD_INICIAL_INGREDIENTES;
 
-    public Maquina(int longitud) {
-        this.nSerie = generarNumeroSerie(longitud);
+    public Maquina(int longitudNserie) {
+        this.nSerie = generarNumeroSerie(longitudNserie);
         inicializarMenuCafes();
 
     }
