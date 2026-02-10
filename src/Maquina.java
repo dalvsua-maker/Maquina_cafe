@@ -16,7 +16,7 @@ public class Maquina {
     private static final Scanner teclado = new Scanner(System.in);
 
     ArrayList<Cafe> Cafes = new ArrayList<Cafe>();
-    private int vasos = CAPACIDAD_INICIAL_VASOS; // ✅ Usar constante
+    private int vasos = CAPACIDAD_INICIAL_VASOS; 
     private int gCafe = CAPACIDAD_INICIAL_INGREDIENTES;
     private int gLeche = CAPACIDAD_INICIAL_INGREDIENTES;
     private int gCacao = CAPACIDAD_INICIAL_CACAO;
@@ -191,7 +191,7 @@ public class Maquina {
      * Inicializa la maquina de cafe, abriendo la interfaz al usuario.
      */
     public void iniciar() {
-        interfaz(); // ✅ Llamar externamente
+        interfaz(); 
     }
 
     /**
@@ -376,9 +376,8 @@ public class Maquina {
      * Si no se puede, se muestra un mensaje de límite superado.
      */
     public void recargarMaquina() {
-        String[] ingredientes = { "Café", "Cacao", "Leche", "Agua", "Vasos", "Salir" }; // ✅ Añadir Vasos
-        int[] cantidadesActuales = { gCafe, gCacao, gLeche, mlAgua, vasos, 0 }; // ✅ Añadir vasos
-
+        String[] ingredientes = { "Café", "Cacao", "Leche", "Agua", "Vasos", "Salir" }; 
+        int[] cantidadesActuales = { gCafe, gCacao, gLeche, mlAgua, vasos, 0 }; 
         int ingredienteSeleccionado = seleccionarIngrediente(ingredientes, cantidadesActuales);
 
         if (ingredienteSeleccionado == ingredientes.length - 1) {
@@ -419,7 +418,7 @@ public class Maquina {
             case 3:
                 mlAgua += cantidad;
                 break;
-            case 4: // ✅ AÑADIR ESTE CASO
+            case 4: 
                 vasos += cantidad;
                 break;
         }
@@ -510,7 +509,7 @@ public class Maquina {
         }
         String nombre = leerNombreCafe();
 
-        // ✅ Validar duplicados
+        //  Validar duplicados
         if (existeCafe(nombre)) {
             System.out.println("⚠️ Ya existe un café con ese nombre.");
             return;
