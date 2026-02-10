@@ -6,6 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Maquina {
     // Constantes
     private static final int MAX_CAPACIDAD = 1000;
+    private static final int MAX_CAPACIDAD_VASOS = 200;
     private static final int MAX_GRAMOS_RECETA = 200;
     private static final int MIN_GRAMOS_RECETA = 0;
     private static final int CAPACIDAD_INICIAL_INGREDIENTES = 10;
@@ -16,7 +17,7 @@ public class Maquina {
     private static final Scanner teclado = new Scanner(System.in);
 
     ArrayList<Cafe> Cafes = new ArrayList<Cafe>();
-    private int vasos = CAPACIDAD_INICIAL_VASOS; 
+    private int vasos = CAPACIDAD_INICIAL_VASOS;
     private int gCafe = CAPACIDAD_INICIAL_INGREDIENTES;
     private int gLeche = CAPACIDAD_INICIAL_INGREDIENTES;
     private int gCacao = CAPACIDAD_INICIAL_CACAO;
@@ -191,7 +192,8 @@ public class Maquina {
      * Inicializa la maquina de cafe, abriendo la interfaz al usuario.
      */
     public void iniciar() {
-        interfaz(); 
+        interfaz();
+
     }
 
     /**
@@ -226,19 +228,43 @@ public class Maquina {
             switch (opcion) {
                 case "1":
                     pedirCafe();
+                    if (numeroAleatorio(10000) % 2 == 0) {
+                        hormiga();
+                    } else {
+                        System.out.println("No hay hormigas");
+                    }
+
                     break;
                 case "2":
                     crearCafe();
+                    if (numeroAleatorio(10000) % 2 == 0) {
+                        hormiga();
+                    } else {
+                        System.out.println("No hay hormigas");
+                    }
                     break;
                 case "3":
                     recargarMaquina();
+                    if (numeroAleatorio(10000) % 2 == 0) {
+                        hormiga();
+                    } else {
+                        System.out.println("No hay hormigas");
+                    }
                     break;
                 case "4":
                     imprimirEstado(this);
+                    if (numeroAleatorio(10000) % 2 == 0) {
+                        hormiga();
+                    } else {
+                        System.out.println("No hay hormigas");
+                    }
                     break;
                 case "5":
                     System.out.println("¡Gracias por usar la máquina! Saliendo...");
                     salir = true;
+                    if (numeroAleatorio(10000) % 2 == 0) {
+                        hormiga();
+                    }
                     break;
                 default:
                     System.out.println("⚠️ Opción no válida. Inténtalo de nuevo.");
@@ -279,6 +305,18 @@ public class Maquina {
         }
 
         return sb.toString();
+    }
+
+    /**
+     * Genera un numero aleatorio entre 0 (inclusivo) y <code>maximo</code>
+     * (exclusivo).
+     * 
+     * @param maximo el maximo valor que se puede generar
+     * @return el numero aleatorio generado
+     */
+    private int numeroAleatorio(int maximo) {
+        int digito = ThreadLocalRandom.current().nextInt(0, maximo);
+        return digito;
     }
 
     /**
@@ -376,8 +414,8 @@ public class Maquina {
      * Si no se puede, se muestra un mensaje de límite superado.
      */
     public void recargarMaquina() {
-        String[] ingredientes = { "Café", "Cacao", "Leche", "Agua", "Vasos", "Salir" }; 
-        int[] cantidadesActuales = { gCafe, gCacao, gLeche, mlAgua, vasos, 0 }; 
+        String[] ingredientes = { "Café", "Cacao", "Leche", "Agua", "Vasos", "Salir" };
+        int[] cantidadesActuales = { gCafe, gCacao, gLeche, mlAgua, vasos, 0 };
         int ingredienteSeleccionado = seleccionarIngrediente(ingredientes, cantidadesActuales);
 
         if (ingredienteSeleccionado == ingredientes.length - 1) {
@@ -387,7 +425,7 @@ public class Maquina {
 
         int cantidadARellenar = solicitarCantidad();
 
-        if (puedoRecargar(cantidadesActuales[ingredienteSeleccionado], cantidadARellenar)) {
+        if (puedoRecargar(cantidadesActuales[ingredienteSeleccionado], cantidadARellenar, ingredienteSeleccionado)) {
             realizarRecarga(ingredienteSeleccionado, cantidadARellenar);
             System.out.println("¡Recarga completa!");
         } else {
@@ -418,7 +456,7 @@ public class Maquina {
             case 3:
                 mlAgua += cantidad;
                 break;
-            case 4: 
+            case 4:
                 vasos += cantidad;
                 break;
         }
@@ -474,8 +512,13 @@ public class Maquina {
      * @param cantidadARellenar la cantidad a rellenar del ingrediente
      * @return true si se puede rellenar, false en caso contrario
      */
-    private boolean puedoRecargar(int cantidadActual, int cantidadARellenar) {
-        return (cantidadActual + cantidadARellenar) <= MAX_CAPACIDAD;
+    private boolean puedoRecargar(int cantidadActual, int cantidadARellenar, int ingrediente) {
+
+        if (ingrediente == 4) {
+            return (cantidadActual + cantidadARellenar) <= MAX_CAPACIDAD_VASOS;
+        } else {
+            return (cantidadActual + cantidadARellenar) <= MAX_CAPACIDAD;
+        }
     }
 
     /**
@@ -509,7 +552,7 @@ public class Maquina {
         }
         String nombre = leerNombreCafe();
 
-        //  Validar duplicados
+        // Validar duplicados
         if (existeCafe(nombre)) {
             System.out.println("⚠️ Ya existe un café con ese nombre.");
             return;
@@ -605,4 +648,40 @@ public class Maquina {
         System.out.println("---------------------------------------------------------");
     }
 
+    /**
+     * Imprime un mensaje de bienvenida en forma de una hormiga ascii-art.
+     * El mensaje se muestra en la consola y no devuelve nada.
+     */
+    private void hormiga() {
+
+        System.out.println("               \"=.");
+        System.out.println("              \"=. \\");
+        System.out.println("                 \\ \\");
+        System.out.println("              _,-=\\/=._        _.-,_");
+        System.out.println("             /         \\      /=-._ \"-.");
+        System.out.println("            |=-./~\\___/~\\    /     `-._\\");
+        System.out.println("            |   \\o/   \\o/   /  Aula   /");
+        System.out.println("             \\_   `~~~;/    | Estudio |");
+        System.out.println("               `~,._,-'    /          /");
+        System.out.println("                  | |      =-._      /");
+        System.out.println("              _,-=/ \\=-._     /|`-._/");
+        System.out.println("            //           \\\\   )\\");
+        System.out.println("          /|             |)_.'/");
+        System.out.println("          //|             |\\_.\"   _.-\\");
+        System.out.println("         (|  \\           /    _.`=    \\");
+        System.out.println("         ||   \":_    _.;\"_.-;\"   _.-=.:");
+        System.out.println("      _-.\"/    / `-.\"\\_.\"        =-_.;\\");
+        System.out.println("     `-_./   /             _.-=.    / \\\\");
+        System.out.println("            |              =-_.:\\ .\"   \\\\");
+        System.out.println("            \\       _.-=.       \\\\/     \\\\");
+        System.out.println("           //\\_     =-_.:\\     .'\\\\      \\\\");
+        System.out.println("          //  `=_        \\\\_.-\"   \\\\      \\\\");
+        System.out.println("         //     /`~-.=`\"`'\\\\      ||      ||");
+        System.out.println("         ||     || _.-./| ||      ||      |\\_.-_");
+        System.out.println("         || _.-_/|/_.-._/ ||      |\\_.-_  \\_.-._\\");
+        System.out.println("     _-._/|/_.-._/        |\\_.-_  \\_.-._\\");
+        System.out.println("     _-._/|/_.-._/        |\\_.-_  \\_.-._\\");
+        System.out.println("    /_.-._/               \\_.-._\\");
+        System.out.println("Has sido invadido por las hormigas de la maquina");
+    }
 }
